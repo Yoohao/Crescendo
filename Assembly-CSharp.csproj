@@ -46,10 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\script\HomeScreen.cs" />
      <Compile Include="Assets\script\MainManager.cs" />
-     <Compile Include="Assets\script\Option.cs" />
-     <Compile Include="Assets\script\Select_Stage.cs" />
-     <Compile Include="Assets\script\Setting.cs" />
+     <Compile Include="Assets\script\Select_stage.cs" />
      <Compile Include="Assets\script\SoundManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

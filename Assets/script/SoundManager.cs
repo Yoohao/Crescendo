@@ -34,9 +34,22 @@ public class SoundManager : MonoBehaviour {
 		BGM.volume = vol;
 	}
 
-	public void playBGM(AudioClip clip){
-		BGM.volume = MainManager.BGM_Volume;
+	public void playBGM(AudioClip clip, bool fade=false){
+		if (fade)
+			BGM.volume = 0;
+		else
+			BGM.volume = MainManager.BGM_Volume;
 		BGM.clip = clip;
 		BGM.Play ();
+		if (fade)
+			StartCoroutine (fadein ());
+	}
+
+	IEnumerator fadein(){
+		for (float i = 0f; i < MainManager.BGM_Volume; i += 0.05f) {
+			BGM.volume = i;
+			yield return new WaitForSeconds (0.01f);
+		}
+		BGM.volume = MainManager.BGM_Volume;
 	}
 }

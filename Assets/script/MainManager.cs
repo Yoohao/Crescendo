@@ -4,15 +4,10 @@ using UnityEngine;
 using System.IO;
 public class MainManager : MonoBehaviour {
 
-	//config
-
 	public static MainManager instance = null;
 
-	//Index
+	//HomeScreen
 	private static AudioClip index_BGM = null;
-	private static bool press = false;
-	private static bool first = true;
-	private static int select_id = 0;
 
 	//Setting
 	private static float effect_vol = .5f;
@@ -21,13 +16,17 @@ public class MainManager : MonoBehaviour {
 	private static string[] device = {"string1", "string2", "string3", "string4"};
 
 	//Stage
-	private static int stage_id = 0;
+	private static int stage_id = -1;
 
 	//Game
-	private static AudioClip game_music;
+	private static AudioClip game_music = null;
+	private static Sprite game_bg = null;
+	private static string game_name = "";
+	private static int game_time = -1;
+	private static int game_speed = 1;
 
 	//Mag calibration
-	private static float MoffsetX, MoffsetY, MoffsetZ;
+	private static float MoffsetX = 0 , MoffsetY = 0, MoffsetZ = 0;
 
 	void Start () {
 		if (instance == null)
@@ -38,26 +37,13 @@ public class MainManager : MonoBehaviour {
 		DontDestroyOnLoad (gameObject);
 	}
 
+	//HomeScreen
 	public static AudioClip Index_BGM{
 		get{ return index_BGM; }
 		set{ index_BGM = value; }
 	}
 
-	public static bool Press{
-		get{ return press; }
-		set{ press = value; }
-	}
-
-	public static bool First{
-		get{ return first; }
-		set{ first = value; }
-	}
-
-	public static int Index_ID{
-		get{ return select_id; }
-		set{ select_id = value; }
-	}
-
+	//Setting
 	public static float Effect_Volume{
 		get{ return effect_vol; }
 		set{ effect_vol = value; }
@@ -77,16 +63,40 @@ public class MainManager : MonoBehaviour {
 		get{ return device; }
 	}
 
+	//Stage
 	public static int Stage_ID{
 		get{ return stage_id; }
 		set{ stage_id = value; }
 	}
+
+	//Game
 
 	public static AudioClip Game_Music{
 		get{ return game_music; }
 		set{ game_music = value; }
 	}
 
+	public static Sprite Game_BackGround{
+		get{ return game_bg; }
+		set{ game_bg = value; }
+	}
+
+	public static string Game_Name {
+		get{ return game_name; }
+		set{ game_name = value; }
+	}
+
+	public static int Game_time {
+		get{ return game_time; }
+		set{ game_time = value; }
+	}
+
+	public static int Game_Speed{
+		get{ return game_speed; }
+		set{ game_speed = value; }
+	}
+
+	//Mag Calibration
 	public static float MagX{
 		get{ return MoffsetX; }
 		set{ MoffsetX = value; }
@@ -104,5 +114,4 @@ public class MainManager : MonoBehaviour {
 
 	private void wirteConfig(){
 	}
-
 }
