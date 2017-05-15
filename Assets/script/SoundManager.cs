@@ -46,7 +46,7 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	IEnumerator fadein(){
-		for (float i = 0f; i < MainManager.BGM_Volume; i += 0.05f) {
+		for (float i = 0f; i < MainManager.BGM_Volume; i += 0.005f) {
 			BGM.volume = i;
 			yield return new WaitForSeconds (0.01f);
 		}

@@ -12,25 +12,31 @@ public class Select_stage : MonoBehaviour {
 	private bool animate = false;
 	private bool left = false;
 	private bool OnChangeID = false;
+	private bool select = false;
 
 
 	//GameObject
-	public GameObject ring;
+	public GameObject ring, bg;
 
 	//UI
 	public Text song_name, time, require, speed, spd;
-	public Button exit, play, next, pre, spdu, spdd;
-	public Image game_bg, panel, spdu_i, spdd_i;
+	public Button next, pre, spdu, spdd;
+	public Image game_bg, panel, spdu_i, spdd_i, next_i, pre_i, exit_i, topbar, play;
 	public Image[] stars;
-	public GameObject next_g, pre_g;
+	public GameObject next_g, pre_g, play_g, exit_g;
 	public GameObject[] stars_g;
 
 	//Stage preview
 	public AudioClip[] stage_clip;
 	public Sprite[] stage_img;
+	public AudioClip[] stage_gameclip;
+	public Sprite[] stage_gameimg;
 	public string[] stage_name;
 	public int[] stage_time;
 	public int[] stage_diff;
+
+
+	public Sprite bg_img;
 
 	// Use this for initialization
 	void Start () {
@@ -40,12 +46,22 @@ public class Select_stage : MonoBehaviour {
 			id = 0;
 		id_max = stage_name.Length - 1;
 
+		next_i.CrossFadeAlpha (0f, 0f, false);
+		pre_i.CrossFadeAlpha (0f, 0f, false);
+		exit_i.CrossFadeAlpha (0f, 0f, false);
+		topbar.CrossFadeAlpha (0f, 0f, false);
+		play.CrossFadeAlpha (0f, 0f, false);
+		next_i.CrossFadeAlpha (1f, 1f, false);
+		pre_i.CrossFadeAlpha (1f, 1f, false);
+		exit_i.CrossFadeAlpha (1f, 1f, false);
+		topbar.CrossFadeAlpha (1f, 1f, false);
+		play.CrossFadeAlpha (1f, 1f, false);
+
 		StartCoroutine (updateInfo (true));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 		f++;
 		f %= 60;
 		next.transform.localPosition += new Vector3 (f >= 30 ? 0.5f : -0.5f, 0f);
@@ -54,28 +70,23 @@ public class Select_stage : MonoBehaviour {
 		next_g.SetActive (id < id_max);
 		pre_g.SetActive (id > 0);
 
-		if (animate && timer<45) {
+		if (animate && select && timer < 60) {
+			ring.transform.localScale += new Vector3 (0.1f, 0.1f);
+		} else if (animate && timer < 30) {
 			timer++;
-			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -1f : 1f), Space.Self);
-			if (timer == 45)
+			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -1.5f : 1.5f), Space.Self);
+			if (timer == 30)
 				animate = false;
 		}
-
-		if (Input.GetKeyDown (KeyCode.Escape) && !animate) {
-			ClickExit ();
-		} else if (Input.GetKeyDown (KeyCode.LeftArrow) && !animate && id > 0) {
-
-			id--;
-			timer = 0;
-			left = true;
-			animate = true;
-			OnChangeID = true;
-		} else if (Input.GetKeyDown (KeyCode.RightArrow) && !animate && id < id_max) {
-			id++;
-			timer = 0;
-			left = false;
-			animate = true;
-			OnChangeID = true;
+		if (!select && !animate) {
+			if (Input.GetKeyDown (KeyCode.Escape))
+				ClickExit ();
+			else if (Input.GetKeyDown (KeyCode.LeftArrow) && !animate && id > 0)
+				ClickPrevious ();
+			else if (Input.GetKeyDown (KeyCode.RightArrow) && !animate && id < id_max)
+				ClickNext ();
+			else if (Input.GetKeyDown (KeyCode.Return))
+				StartCoroutine (ClickPlay ());
 		}
 		int tmp_id = Mathf.Clamp (id, 0, id_max);
 		if (tmp_id != id) {
@@ -86,42 +97,50 @@ public class Select_stage : MonoBehaviour {
 			StartCoroutine (updateInfo ());
 			OnChangeID = false;
 		}
-
 	}
+
+	void fadeout(float duration = 0f){
+		song_name.CrossFadeAlpha (0f, duration, false);
+		time.CrossFadeAlpha (0f, duration, false);
+		speed.CrossFadeAlpha (0f, duration, false);
+		spd.CrossFadeAlpha (0f, duration, false);
+		require.CrossFadeAlpha (0f, duration, false);
+
+		spdu_i.CrossFadeAlpha (0f, duration, false);
+		spdd_i.CrossFadeAlpha (0f, duration, false);
+		spdd.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, duration, false);
+		spdu.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, duration, false);
+		panel.CrossFadeAlpha (0f, duration, false);
+		game_bg.CrossFadeAlpha (0f, duration, false);
+		for (int i = 0; i < stars.Length; i++)
+			stars [i].CrossFadeAlpha (0f, duration, false);
+	}
+
+	void fadein(float duration = 0f){
+		song_name.CrossFadeAlpha(1f, duration, false);
+		time.CrossFadeAlpha(1f, duration, false);
+		speed.CrossFadeAlpha(1f, duration, false);
+		spd.CrossFadeAlpha(1f, duration, false);
+		require.CrossFadeAlpha(1f, duration, false);
+
+		spdu_i.CrossFadeAlpha(1f, duration, false);
+		spdd_i.CrossFadeAlpha(1f, duration, false);
+		spdd.GetComponentInChildren<Text>().CrossFadeAlpha(1f, duration, false);
+		spdu.GetComponentInChildren<Text>().CrossFadeAlpha(1f, duration, false);
+		panel.CrossFadeAlpha(1f, duration, false);
+		game_bg.CrossFadeAlpha(1f, duration, false);
+		for (int i = 0; i < stars.Length; i++)
+			stars[i].CrossFadeAlpha(1f, duration, false);
+	}
+
 
 	IEnumerator updateInfo(bool flag=false){
 		//fade out
 		if (!flag) {
-			song_name.CrossFadeAlpha (0f, 0.5f, false);
-			time.CrossFadeAlpha (0f, 0.5f, false);
-			speed.CrossFadeAlpha (0f, 0.5f, false);
-			spd.CrossFadeAlpha (0f, 0.5f, false);
-			require.CrossFadeAlpha (0f, 0.5f, false);
-
-			spdu_i.CrossFadeAlpha (0f, 0.5f, false);
-			spdd_i.CrossFadeAlpha (0f, 0.5f, false);
-			spdd.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, 0.5f, false);
-			spdu.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, 0.5f, false);
-			panel.CrossFadeAlpha (0f, 0.5f, false);
-			game_bg.CrossFadeAlpha (0f, 0.5f, false);
-			for (int i = 0; i < stars.Length; i++)
-				stars [i].CrossFadeAlpha (0f, 0.5f, false);
+			fadeout (0.5f);
 			yield return new WaitForSeconds (0.6f);
 		} else {
-			song_name.CrossFadeAlpha (0f, 0f, false);
-			time.CrossFadeAlpha (0f, 0f, false);
-			speed.CrossFadeAlpha (0f, 0f, false);
-			spd.CrossFadeAlpha (0f, 0f, false);
-			require.CrossFadeAlpha (0f, 0f, false);
-
-			spdu_i.CrossFadeAlpha (0f, 0f, false);
-			spdd_i.CrossFadeAlpha (0f, 0f, false);
-			spdd.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, 0f, false);
-			spdu.GetComponentInChildren<Text> ().CrossFadeAlpha (0f, 0f, false);
-			panel.CrossFadeAlpha (0f, 0f, false);
-			game_bg.CrossFadeAlpha (0f, 0f, false);
-			for (int i = 0; i < stars.Length; i++)
-				stars [i].CrossFadeAlpha (0f, 0f, false);
+			fadeout ();
 			yield return new WaitForSeconds (0.1f);
 		}
 		//Get info
@@ -142,20 +161,7 @@ public class Select_stage : MonoBehaviour {
 		SoundManager.instance.playBGM (stage_clip [id], true);
 
 		//fade in
-		song_name.CrossFadeAlpha(1f, 0.5f, false);
-		time.CrossFadeAlpha(1f, 0.5f, false);
-		speed.CrossFadeAlpha(1f, 0.5f, false);
-		spd.CrossFadeAlpha(1f, 0.5f, false);
-		require.CrossFadeAlpha(1f, 0.5f, false);
-
-		spdu_i.CrossFadeAlpha(1f, 0.5f, false);
-		spdd_i.CrossFadeAlpha(1f, 0.5f, false);
-		spdd.GetComponentInChildren<Text>().CrossFadeAlpha(1f, 0.5f, false);
-		spdu.GetComponentInChildren<Text>().CrossFadeAlpha(1f, 0.5f, false);
-		panel.CrossFadeAlpha(1f, 0.5f, false);
-		game_bg.CrossFadeAlpha(1f, 0.5f, false);
-		for (int i = 0; i < stars.Length; i++)
-			stars[i].CrossFadeAlpha(1f, 0.5f, false);
+		fadein(0.5f);
 	}
 
 	public void ClickExit(){
@@ -163,9 +169,45 @@ public class Select_stage : MonoBehaviour {
 		SceneManager.LoadSceneAsync ("HomeScreen");		
 	}
 
-	public void ClickPlay(){}
-	public void ClickNext(){}
-	public void ClickPrevious(){}
+	public IEnumerator ClickPlay(){
+		//Set info for next scene
+		MainManager.Stage_ID = id;
+		MainManager.Game_Music = stage_clip [id];
+		MainManager.Game_Name = stage_name [id];
+		MainManager.Game_time = stage_time [id];
+		MainManager.Game_BackGround = stage_img [id];
+
+		fadeout (0.3f);
+		next_i.CrossFadeAlpha (0f, 0.3f, false);
+		pre_i.CrossFadeAlpha (0f, 0.3f, false);
+		exit_i.CrossFadeAlpha (0f, 0.3f, false);
+		topbar.CrossFadeAlpha (0f, 0.3f, false);
+		play.CrossFadeAlpha (0f, 0.3f, false);
+		yield return new WaitForSeconds (0.4f);
+		exit_g.SetActive (false);
+		play_g.SetActive (false);
+		select = animate = true;
+		timer = 0;
+		bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
+	}
+	public void ClickNext(){
+		if (animate)
+			return;
+		id++;
+		timer = 0;
+		left = false;
+		animate = true;
+		OnChangeID = true;
+	}
+	public void ClickPrevious(){
+		if (animate)
+			return;
+		id--;
+		timer = 0;
+		left = true;
+		animate = true;
+		OnChangeID = true;
+	}
 	public void ClickUP(){
 		if (MainManager.Game_Speed == 3)
 			return;

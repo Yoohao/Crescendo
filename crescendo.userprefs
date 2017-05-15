@@ -1,12 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/Select_Stage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/Select_stage.cs">
     <Files>
-      <File FileName="Assets/script/Option.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/Select_stage.cs" Line="60" Column="38" />
       <File FileName="Assets/script/MainManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/script/Select_Stage.cs" Line="112" Column="35" />
-      <File FileName="Assets/script/Setting.cs" Line="1" Column="1" />
       <File FileName="Assets/script/SoundManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/HomeScreen.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

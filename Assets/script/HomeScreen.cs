@@ -10,7 +10,7 @@ public class HomeScreen : MonoBehaviour {
 	public AudioClip clip;
 	public Text press;
 	public Text percentage;
-	public GameObject per;
+	public GameObject per, press_g;
 
 	private bool flag = true;
 
@@ -30,6 +30,7 @@ public class HomeScreen : MonoBehaviour {
 		if (Input.anyKeyDown) {
 			flag = false;
 			per.SetActive (true);
+			press_g.SetActive (false);
 			StartCoroutine (load ());
 		}
 	}
