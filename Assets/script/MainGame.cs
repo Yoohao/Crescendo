@@ -30,18 +30,18 @@ public class MainGame : MonoBehaviour {
 	public GameObject PausePage;
 	public GameObject PageSwitcher;
 	public GameObject Result;
-	public Text DebugLog;
+	public Text NameLog;
 	public Text DebugFps;
 	public Text Score;
-	private int fps = 0;
+	//private int fps = 0;
 	private int index=1;
-	private float fpsTime = 0;
+	//private float fpsTime = 0;
 	public int ReadyShine;
 	public float time;
 	public bool ReadyFlag;
 	public state mode;
 	public int[] IMUID;
-	public AudioSource song;
+	//public AudioSource song;
 	BLEConnector BLE;
 	private GameBox gb;
 	private bool GOflag=false;
@@ -55,8 +55,15 @@ public class MainGame : MonoBehaviour {
 	// Use this for initialization
 	void Awake()
 	{
+		
+		NameLog.text = MainManager.Game_Name;
+		SoundManager.instance.Stop ();
+		//song = SoundManager.instance.BGM;
+		//song.Stop ();
+		gameObject.GetComponentInChildren<SpriteRenderer> ().sprite = MainManager.Game_BackGround;
 		BLE = FindObjectOfType<BLEConnector> ();
 		Debug.Log (BLE);
+
 	}
 	void Start () {
 		
@@ -64,7 +71,7 @@ public class MainGame : MonoBehaviour {
 		Debug.Log (numSp.GetW (0));	
 		gb = new GameBox ();
 		gb.SetDiff (index);
-		song.Stop ();
+		//song.Stop ();
 		Instance = this;
 		mode = state.Load;
 		ReadyShine = 0;
@@ -147,7 +154,8 @@ public class MainGame : MonoBehaviour {
 				inner.SetActive (true);
 				crystal.SetActive (true);
 				mode = state.Play;
-				song.Play ();
+				SoundManager.instance.BGM.Play ();
+				Debug.Log ("Play");
 				time = 0;
 				CancelInvoke ("ShowReady");
 				InvokeRepeating ("ProgressShine", 0f, 0.2f);
@@ -175,7 +183,7 @@ public class MainGame : MonoBehaviour {
 		
 			if (Input.GetKeyDown ("s")) {
 				mode = state.Stop;
-				song.Pause ();
+				SoundManager.instance.BGM.Pause ();
 				crystal.GetComponent<Animator> ().enabled = false;
 				PausePage.SetActive (true);
 				BLE.CloseIMU ();
@@ -185,7 +193,8 @@ public class MainGame : MonoBehaviour {
 			if (Input.GetKeyDown ("s")) {
 				mode = state.Play;
 				crystal.GetComponent<Animator> ().enabled = true;
-				song.Play ();
+				SoundManager.instance.BGM.Play ();
+				Debug.Log ("!");
 			}
 		} else if (mode == state.ResultLoad) {
 			ResultLoad ();
@@ -201,8 +210,8 @@ public class MainGame : MonoBehaviour {
 		ResultClass r = Result.GetComponent<ResultClass> ();
 		Result.SetActive (true);
 		r.init ();
-		r.SetInfo("Bad Apple",3,151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
-
+		//r.SetInfo("Bad Apple",3,151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		r.SetInfo(NameLog.text,3,gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
 	}
 	public void ResultSet()
 	{
@@ -211,7 +220,7 @@ public class MainGame : MonoBehaviour {
 	}
 	public void ResultLoad()
 	{
-		//r.SetInfo("Bad Apple",3,gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+
 		c.transform.localScale -= new Vector3 (0.01f, 0.01f, 0f);
 		c.transform.Rotate (new Vector3 (0f, 0f, 4.5f), Space.Self);
 		Arrow.transform.localScale -= new Vector3 (0.01f, 0.01f, 0);
@@ -226,7 +235,7 @@ public class MainGame : MonoBehaviour {
 	public void GameStop()
 	{
 		mode = state.Stop;
-		song.Pause ();
+		SoundManager.instance.BGM.Pause ();
 		crystal.GetComponent<Animator> ().enabled = false;
 		PausePage.SetActive (true);
 	}
@@ -234,7 +243,7 @@ public class MainGame : MonoBehaviour {
 	{
 		mode = state.Play;
 		crystal.GetComponent<Animator> ().enabled = true;
-		song.Play();
+		SoundManager.instance.BGM.Play();
 		PausePage.SetActive (false);
 		Debug.Log ("Play");
 	}
@@ -341,12 +350,10 @@ public class MainGame : MonoBehaviour {
 	{
 
 		if (Progress_Shine) {
-			DebugLog.text="+";
 			ProgressBlur.GetComponent<SpriteRenderer> ().color += new Color (0f, 0f, 0f, 0.1f);
 			if (ProgressBlur.GetComponent<SpriteRenderer> ().color.a > 0.9f)
 				Progress_Shine = false;
 		} else{
-			DebugLog.text="-";
 			ProgressBlur.GetComponent<SpriteRenderer> ().color -= new Color (0f, 0f, 0f, 0.1f);
 			if (ProgressBlur.GetComponent<SpriteRenderer> ().color.a < 0.1f)
 				Progress_Shine = true;

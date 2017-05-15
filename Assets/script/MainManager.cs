@@ -24,7 +24,7 @@ public class MainManager : MonoBehaviour {
 	private static string game_name = "";
 	private static int game_time = -1;
 	private static int game_speed = 1;
-
+	private static int sensor=0;
 	//Mag calibration
 	private static float MoffsetX = 0 , MoffsetY = 0, MoffsetZ = 0;
 

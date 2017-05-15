@@ -52,6 +52,7 @@
      <Compile Include="Assets\script\ConcurrenQueue.cs" />
      <Compile Include="Assets\script\ConnectPAGE.cs" />
      <Compile Include="Assets\script\GameBox.cs" />
+     <Compile Include="Assets\script\GameManger.cs" />
      <Compile Include="Assets\script\HomeScreen.cs" />
      <Compile Include="Assets\script\Magic.cs" />
      <Compile Include="Assets\script\MainGame.cs" />

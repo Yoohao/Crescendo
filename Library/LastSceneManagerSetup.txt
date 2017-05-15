@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scene/HomeScreen.unity
+- path: Assets/Scene/NewGame.unity
   isLoaded: 1
   isActive: 1
