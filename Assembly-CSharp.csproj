@@ -3,8 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{83F0AFC1-00D0-D40A-7CEA-851A38A689E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -33,65 +34,65 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>D:\unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>D:/unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:\unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <HintPath>D:/unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\script\BLEConnector.cs" />
-    <Compile Include="Assets\script\BLE_WIN32.cs" />
-    <Compile Include="Assets\script\Combo.cs" />
-    <Compile Include="Assets\script\ConcurrenQueue.cs" />
-    <Compile Include="Assets\script\ConnectPAGE.cs" />
-    <Compile Include="Assets\script\GameBox.cs" />
-    <Compile Include="Assets\script\HomeScreen.cs" />
-    <Compile Include="Assets\script\Magic.cs" />
-    <Compile Include="Assets\script\MainGame.cs" />
-    <Compile Include="Assets\script\MainManager.cs" />
-    <Compile Include="Assets\script\NoteMove.cs" />
-    <Compile Include="Assets\script\Number.cs" />
-    <Compile Include="Assets\script\OnPause.cs" />
-    <Compile Include="Assets\script\OnPausePage.cs" />
-    <Compile Include="Assets\script\PageSwitcher.cs" />
-    <Compile Include="Assets\script\ResultClass.cs" />
-    <Compile Include="Assets\script\Select_stage.cs" />
-    <Compile Include="Assets\script\SoundManager.cs" />
-    <Compile Include="Assets\script\StarMove.cs" />
-    <Compile Include="Assets\script\TextCombo.cs" />
-    <Compile Include="Assets\script\Util.cs" />
-    <Compile Include="Assets\script\expScript.cs" />
-    <Compile Include="Assets\script\videoPlayer.cs" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PlaymodeTestsRunner">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\PlaymodeTestsRunner\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\UnityHoloLens\RuntimeEditor\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VR">
-      <HintPath>D:\unity\Editor\Data\UnityExtensions\Unity\UnityVR\RuntimeEditor\UnityEngine.VR.dll</HintPath>
-    </Reference>
-    <Reference Include="PInvokeSerialPort">
-      <HintPath>D:\unity\Project\Crescendo\Assets\Plugins\PInvokeSerialPort.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>D:\unity\Editor\Data\Managed\Mono.Cecil.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\script\BLEConnector.cs" />
+     <Compile Include="Assets\script\BLE_WIN32.cs" />
+     <Compile Include="Assets\script\Combo.cs" />
+     <Compile Include="Assets\script\ConcurrenQueue.cs" />
+     <Compile Include="Assets\script\ConnectPAGE.cs" />
+     <Compile Include="Assets\script\GameBox.cs" />
+     <Compile Include="Assets\script\HomeScreen.cs" />
+     <Compile Include="Assets\script\Magic.cs" />
+     <Compile Include="Assets\script\MainGame.cs" />
+     <Compile Include="Assets\script\MainManager.cs" />
+     <Compile Include="Assets\script\NoteMove.cs" />
+     <Compile Include="Assets\script\Number.cs" />
+     <Compile Include="Assets\script\OnPause.cs" />
+     <Compile Include="Assets\script\OnPausePage.cs" />
+     <Compile Include="Assets\script\PageSwitcher.cs" />
+     <Compile Include="Assets\script\ResultClass.cs" />
+     <Compile Include="Assets\script\Select_stage.cs" />
+     <Compile Include="Assets\script\SoundManager.cs" />
+     <Compile Include="Assets\script\StarMove.cs" />
+     <Compile Include="Assets\script\TextCombo.cs" />
+     <Compile Include="Assets\script\Util.cs" />
+     <Compile Include="Assets\script\expScript.cs" />
+     <Compile Include="Assets\script\videoPlayer.cs" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PlaymodeTestsRunner">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>D:/unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="PInvokeSerialPort">
+ <HintPath>D:/unity/Project/Crescendo/Assets/Plugins/PInvokeSerialPort.dll</HintPath>
+ </Reference>
+ <Reference Include="Mono.Cecil">
+ <HintPath>D:/unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -101,4 +102,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
