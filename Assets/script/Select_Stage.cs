@@ -72,6 +72,10 @@ public class Select_stage : MonoBehaviour {
 
 		if (animate && select && timer < 60) {
 			ring.transform.localScale += new Vector3 (0.1f, 0.1f);
+			if (ring.transform.localScale.x > 2.5f) {
+				animate = false;
+				SceneManager.LoadSceneAsync("GameVer1");
+			}
 		} else if (animate && timer < 30) {
 			timer++;
 			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -1.5f : 1.5f), Space.Self);
@@ -188,7 +192,7 @@ public class Select_stage : MonoBehaviour {
 		play_g.SetActive (false);
 		select = animate = true;
 		timer = 0;
-		bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
+		//bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
 	}
 	public void ClickNext(){
 		if (animate)
