@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Select_stage : MonoBehaviour {
 
 	//var
-	private int id = -1, id_max;
+	private int id = -1, id_max=9;
 	private int timer = 0, f = 0;
 	private bool animate = false;
 	private bool left = false;
@@ -44,8 +44,7 @@ public class Select_stage : MonoBehaviour {
 			id = MainManager.Stage_ID;
 		else
 			id = 0;
-		id_max = stage_name.Length - 1;
-
+		
 		next_i.CrossFadeAlpha (0f, 0f, false);
 		pre_i.CrossFadeAlpha (0f, 0f, false);
 		exit_i.CrossFadeAlpha (0f, 0f, false);
@@ -72,6 +71,11 @@ public class Select_stage : MonoBehaviour {
 
 		if (animate && select && timer < 60) {
 			ring.transform.localScale += new Vector3 (0.1f, 0.1f);
+			if (ring.transform.localScale.x > 2.5f) {
+				animate = false;
+				SoundManager.instance.Stop ();
+				SceneManager.LoadSceneAsync("GameVer1");
+			}
 		} else if (animate && timer < 30) {
 			timer++;
 			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -1.5f : 1.5f), Space.Self);
@@ -86,7 +90,7 @@ public class Select_stage : MonoBehaviour {
 			else if (Input.GetKeyDown (KeyCode.RightArrow) && !animate && id < id_max)
 				ClickNext ();
 			else if (Input.GetKeyDown (KeyCode.Return))
-				StartCoroutine (ClickPlay ());
+				ClickPlay ();
 		}
 		int tmp_id = Mathf.Clamp (id, 0, id_max);
 		if (tmp_id != id) {
@@ -149,16 +153,16 @@ public class Select_stage : MonoBehaviour {
 		t += ":";
 		t += (stage_time [id] % 60).ToString();
 
-		song_name.text = stage_name[id];
+		song_name.text = GameManger.instance.Music_Name[id];
 		time.text = t;
 		for (int i = 0; i < stars.Length; i++)
 			stars_g [i].SetActive (false);
-		for (int i = 0; i < stage_diff [id]; i++)
+		for (int i = 0; i < GameManger.instance.stars [id]; i++)
 			stars_g [i].SetActive (true);
 		MainManager.Game_Speed = 1;
 		spd.text = MainManager.Game_Speed.ToString() + "x";
-		game_bg.sprite = stage_img [id];
-		SoundManager.instance.playBGM (stage_clip [id], true);
+		game_bg.sprite = GameManger.instance.ResultImage [id];
+		SoundManager.instance.playBGM (GameManger.instance.Music_Demo[id], true);
 
 		//fade in
 		fadein(0.5f);
@@ -169,13 +173,19 @@ public class Select_stage : MonoBehaviour {
 		SceneManager.LoadSceneAsync ("HomeScreen");		
 	}
 
-	public IEnumerator ClickPlay(){
+	public void ClickPlay(){
 		//Set info for next scene
+		StartCoroutine(PlayWrapper());
+		//bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
+	}
+
+	public IEnumerator PlayWrapper()
+	{
 		MainManager.Stage_ID = id;
-		MainManager.Game_Music = stage_clip [id];
-		MainManager.Game_Name = stage_name [id];
+		MainManager.Game_Music = GameManger.instance.Music_Demo [id];
+		MainManager.Game_Name = GameManger.instance.Music_Name [id];
 		MainManager.Game_time = stage_time [id];
-		MainManager.Game_BackGround = stage_img [id];
+		MainManager.Game_BackGround = GameManger.instance.ResultImage [id];
 
 		fadeout (0.3f);
 		next_i.CrossFadeAlpha (0f, 0.3f, false);
@@ -188,8 +198,10 @@ public class Select_stage : MonoBehaviour {
 		play_g.SetActive (false);
 		select = animate = true;
 		timer = 0;
-		bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
+		Debug.Log (id);
+		MainManager.instance.SetInfo (id);
 	}
+
 	public void ClickNext(){
 		if (animate)
 			return;

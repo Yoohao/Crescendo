@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource BGM;
 	public static SoundManager instance = null;
 
+	public AudioClip[] GameClip;
+	public AudioClip[] stage_gameclip;
+
 	void Awake () {
 		if (instance == null)
 			instance = this;
@@ -51,5 +54,19 @@ public class SoundManager : MonoBehaviour {
 			yield return new WaitForSeconds (0.01f);
 		}
 		BGM.volume = MainManager.BGM_Volume;
+	}
+	public void Stop()
+	{
+		BGM.Stop ();
+	}
+
+	public float timeProgress()
+	{
+		return BGM.time / BGM.clip.length;
+	}
+
+	public float songStop()
+	{
+		return BGM.clip.length - BGM.time;
 	}
 }

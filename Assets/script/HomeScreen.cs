@@ -33,6 +33,7 @@ public class HomeScreen : MonoBehaviour {
 			press_g.SetActive (false);
 			StartCoroutine (load ());
 		}
+
 	}
 
 	IEnumerator load(){
