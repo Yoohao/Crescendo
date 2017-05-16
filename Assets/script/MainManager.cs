@@ -21,10 +21,12 @@ public class MainManager : MonoBehaviour {
 	//Game
 	private static AudioClip game_music = null;
 	private static Sprite game_bg = null;
+	private static Sprite result_bg=null;
 	private static string game_name = "";
 	private static int game_time = -1;
 	private static int game_speed = 1;
-	private static int sensor=0;
+	public static int stars=0;
+	public static int sensor=0;
 	//Mag calibration
 	private static float MoffsetX = 0 , MoffsetY = 0, MoffsetZ = 0;
 
@@ -69,6 +71,11 @@ public class MainManager : MonoBehaviour {
 		set{ stage_id = value; }
 	}
 
+
+	public static Sprite Result_img{
+		get{ return result_bg; }
+		set{ result_bg = value; }
+	}
 	//Game
 
 	public static AudioClip Game_Music{
@@ -113,5 +120,16 @@ public class MainManager : MonoBehaviour {
 	}
 
 	private void wirteConfig(){
+	}
+
+	public void SetInfo(int id)
+	{
+		stage_id = id;
+		game_music = GameManger.instance.Music_Clip[id];
+		game_name = GameManger.instance.Music_Name[id];
+		game_bg = GameManger.instance.Background [id];
+		result_bg = GameManger.instance.ResultImage[id];
+		stars = GameManger.instance.stars [id];
+		sensor = GameManger.instance.Sensors [id];
 	}
 }

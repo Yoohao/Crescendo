@@ -5,9 +5,13 @@ using UnityEngine;
 public class GameManger : MonoBehaviour {
 
 	public static GameManger instance = null;
-	public int MusicID = 0;
-	public int Senors=0;
-	public int Level=0;
+	public AudioClip[] Music_Clip;
+	public AudioClip[] Music_Demo;
+	public string[] Music_Name;
+	public int[] stars;
+	public Sprite[] Background;
+	public Sprite[] ResultImage;
+	public int[] Sensors;
 
 	void Awake () {
 		if (instance == null)

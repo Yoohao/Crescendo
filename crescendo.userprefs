@@ -1,11 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/Select_stage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\HomeScreen.cs">
     <Files>
-      <File FileName="Assets/script/Select_stage.cs" Line="60" Column="38" />
-      <File FileName="Assets/script/MainManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/script/SoundManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/script/HomeScreen.cs" Line="1" Column="1" />
+      <File FileName="Assets\script\Select_stage.cs" Line="164" Column="57" />
+      <File FileName="Assets\script\MainManager.cs" Line="24" Column="16" />
+      <File FileName="Assets\script\SoundManager.cs" Line="7" Column="20" />
+      <File FileName="Assets\script\HomeScreen.cs" Line="40" Column="26" />
+      <File FileName="Assets\script\ResultClass.cs" Line="40" Column="41" />
+      <File FileName="Assets\script\MainGame.cs" Line="217" Column="10" />
+      <File FileName="Assets\script\Number.cs" Line="1" Column="1" />
+      <File FileName="Assets\script\OnPause.cs" Line="1" Column="1" />
+      <File FileName="Assets\script\GameManger.cs" Line="9" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

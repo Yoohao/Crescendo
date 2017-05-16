@@ -22,6 +22,7 @@ public class ResultClass : MonoBehaviour {
 	public int Level;
 	public GameObject[] crown;
 	public GameObject star;
+	public Image im;
 	private string[] str=new string[12];
 	public int flag = 0;
 	public bool starflag=true;
@@ -36,7 +37,7 @@ public class ResultClass : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (LoadResult) {
-			if (starflag && starCount < Level) {
+			if (starflag && starCount < starCount) {
 				starflag = false;
 				Vector3 v = new Vector3 (-2.7f + starCount * 0.7f, 4.65f, 0f);
 				GameObject temp = Instantiate (star, v, gameObject.transform.rotation);
@@ -123,10 +124,13 @@ public class ResultClass : MonoBehaviour {
 		crown[1].SetActive (false);
 		crown[2].SetActive (false);
 	}
-	public void SetInfo(string n,int l,int p,int g,int f,int c,float per,float per_base,bool r)
+	public void SetInfo(int l,int p,int g,int f,int c,float per,float per_base,bool r)
 	{
 		Level = l;
-		str [0] = n;
+
+		im.sprite = MainManager.Result_img;
+		starCount = MainManager.stars;
+		str [0] = MainManager.Game_Name;
 		str[3]=p.ToString();
 		str[5]=g.ToString();
 		str[7]=f.ToString();

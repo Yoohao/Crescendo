@@ -57,10 +57,8 @@ public class MainGame : MonoBehaviour {
 	{
 		
 		NameLog.text = MainManager.Game_Name;
-		SoundManager.instance.Stop ();
-		//song = SoundManager.instance.BGM;
-		//song.Stop ();
 		gameObject.GetComponentInChildren<SpriteRenderer> ().sprite = MainManager.Game_BackGround;
+		index = MainManager.sensor;
 		BLE = FindObjectOfType<BLEConnector> ();
 		Debug.Log (BLE);
 
@@ -154,7 +152,7 @@ public class MainGame : MonoBehaviour {
 				inner.SetActive (true);
 				crystal.SetActive (true);
 				mode = state.Play;
-				SoundManager.instance.BGM.Play ();
+				SoundManager.instance.playBGM (MainManager.Game_Music, true);
 				Debug.Log ("Play");
 				time = 0;
 				CancelInvoke ("ShowReady");
@@ -210,8 +208,8 @@ public class MainGame : MonoBehaviour {
 		ResultClass r = Result.GetComponent<ResultClass> ();
 		Result.SetActive (true);
 		r.init ();
-		//r.SetInfo("Bad Apple",3,151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
-		r.SetInfo(NameLog.text,3,gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		r.SetInfo(3,151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		//r.SetInfo(3,gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
 	}
 	public void ResultSet()
 	{
