@@ -90,7 +90,7 @@ public class Select_stage : MonoBehaviour {
 			else if (Input.GetKeyDown (KeyCode.RightArrow) && !animate && id < id_max)
 				ClickNext ();
 			else if (Input.GetKeyDown (KeyCode.Return))
-				StartCoroutine (ClickPlay ());
+				ClickPlay ();
 		}
 		int tmp_id = Mathf.Clamp (id, 0, id_max);
 		if (tmp_id != id) {
@@ -173,8 +173,14 @@ public class Select_stage : MonoBehaviour {
 		SceneManager.LoadSceneAsync ("HomeScreen");		
 	}
 
-	public IEnumerator ClickPlay(){
+	public void ClickPlay(){
 		//Set info for next scene
+		StartCoroutine(PlayWrapper());
+		//bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
+	}
+
+	public IEnumerator PlayWrapper()
+	{
 		MainManager.Stage_ID = id;
 		MainManager.Game_Music = GameManger.instance.Music_Demo [id];
 		MainManager.Game_Name = GameManger.instance.Music_Name [id];
@@ -194,8 +200,8 @@ public class Select_stage : MonoBehaviour {
 		timer = 0;
 		Debug.Log (id);
 		MainManager.instance.SetInfo (id);
-		//bg.GetComponentInChildren<SpriteRenderer> ().sprite = bg_img;
 	}
+
 	public void ClickNext(){
 		if (animate)
 			return;

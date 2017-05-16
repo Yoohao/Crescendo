@@ -60,4 +60,13 @@ public class SoundManager : MonoBehaviour {
 		BGM.Stop ();
 	}
 
+	public float timeProgress()
+	{
+		return BGM.time / BGM.clip.length;
+	}
+
+	public float songStop()
+	{
+		return BGM.clip.length - BGM.time;
+	}
 }

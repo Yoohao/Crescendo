@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class ResultClass : MonoBehaviour {
 	private enum state{result,perfect,good,fail,combo,persent,none,done};
 	private state st;
@@ -37,9 +37,8 @@ public class ResultClass : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (LoadResult) {
-			if (starflag && starCount < starCount) {
-				starflag = false;
-				Vector3 v = new Vector3 (-2.7f + starCount * 0.7f, 4.65f, 0f);
+			if (starCount < Level) {
+				Vector3 v = new Vector3 (-6f + starCount * 0.7f, 3.9f, 0f);
 				GameObject temp = Instantiate (star, v, gameObject.transform.rotation);
 				StartCoroutine (FadeIn (temp));
 				starCount++;
@@ -124,12 +123,13 @@ public class ResultClass : MonoBehaviour {
 		crown[1].SetActive (false);
 		crown[2].SetActive (false);
 	}
-	public void SetInfo(int l,int p,int g,int f,int c,float per,float per_base,bool r)
+	public void SetInfo(int p,int g,int f,int c,float per,float per_base,bool r)
 	{
-		Level = l;
+		
 
 		im.sprite = MainManager.Result_img;
-		starCount = MainManager.stars;
+		Level = MainManager.stars;
+		Debug.Log (Level.ToString());
 		str [0] = MainManager.Game_Name;
 		str[3]=p.ToString();
 		str[5]=g.ToString();
@@ -149,6 +149,9 @@ public class ResultClass : MonoBehaviour {
 
 		Debug.Log ("SetInfo");
 	}
+
+
+
 
 	public IEnumerator ShowText(int n)
 	{
@@ -210,5 +213,9 @@ public class ResultClass : MonoBehaviour {
 			yield return null;
 		}
 		starflag = true;
+	}
+
+	public void ClickExit(){
+		SceneManager.LoadSceneAsync ("NewGame");		
 	}
 }

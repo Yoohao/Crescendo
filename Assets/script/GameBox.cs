@@ -20,6 +20,10 @@ public class GameBox  {
 	private const int AngleDiff = 3;
 	private int Angle_prob=15;	
 	private int ID_prob=10;
+	private float score_perfect;
+	private float score_good;
+	private float persent_good=0.85f;
+
 
 	public GameBox()
 	{
@@ -46,12 +50,27 @@ public class GameBox  {
 	{
 		
 	}
+	public float GetScore()
+	{
+		return Score;
+	}
+	public void SetScorePersent()
+	{
+		score_perfect=100f/Mathf.Floor((SoundManager.instance.BGM.clip.length-5f)/MainGame.Instance.GenerateTime);
+		score_good = score_perfect * persent_good;
+		Debug.Log (">>" + Mathf.Floor ((SoundManager.instance.BGM.clip.length - 5f) / MainGame.Instance.GenerateTime));
+		Debug.Log (score_good + " /" + score_perfect);
+		Debug.Log (SoundManager.instance.BGM.clip.length.ToString ());
+		Debug.Log ((SoundManager.instance.BGM.clip.length-5f).ToString());
+		Debug.Log (MainGame.Instance.GenerateTime);
+	}
+
 	public float GetPer(int n)
 	{
 		if (n == 0)
-			return 20.0f;
+			return Score * 0.2f;
 		else
-			return 70.8f;
+			return Score;
 	}
 	public bool isFail()
 	{
@@ -66,12 +85,14 @@ public class GameBox  {
 			Combo = 0;
 		} else if (n > 0) 
 		{
-			if (n == 1) {
+			if (Combo > HighestCombo)
+				HighestCombo = Combo;
+			if (n == 2) {
 				Perfect++;
-				AddScore (0.25f);
+				AddScore (score_perfect);
 			} else {
 				Good++;
-				AddScore (0.2f);
+				AddScore (score_good);
 			}
 			Combo++;
 			Suc++;
@@ -113,6 +134,7 @@ public class GameBox  {
 	}
 	public void AddScore(float s)
 	{
+		Score += s;
 		//Score+=(s*f*((Combo/10)*0.5f+1));
 	}
 

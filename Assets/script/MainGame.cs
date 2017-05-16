@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class MainGame : MonoBehaviour {
 	public enum state{Load,Connect,Ready,Play,Pause,Over,Stop,ResultLoad,Result,none};
 	public static MainGame Instance;
@@ -52,12 +54,13 @@ public class MainGame : MonoBehaviour {
 	private bool Progress_Shine=false;
 	public GameObject ProgressBlur;
 	private bool GameStartFlag=false;
+	public float GenerateTime = 2f;
 	// Use this for initialization
 	void Awake()
 	{
-		
 		NameLog.text = MainManager.Game_Name;
 		gameObject.GetComponentInChildren<SpriteRenderer> ().sprite = MainManager.Game_BackGround;
+		SoundManager.instance.BGM.clip = MainManager.Game_Music;
 		index = MainManager.sensor;
 		BLE = FindObjectOfType<BLEConnector> ();
 		Debug.Log (BLE);
@@ -89,6 +92,8 @@ public class MainGame : MonoBehaviour {
 		IMUID = new int[5];
 		for (int i = 0; i < 5; i++)
 			IMUID [i] = new int();
+
+		gb.SetScorePersent ();
 		
 	}
 	
@@ -168,13 +173,15 @@ public class MainGame : MonoBehaviour {
 				for (int i = 0; i < BLE.max_sr; i++) {
 					CheckDir (i);
 				}
-			bar.transform.position += new Vector3 (0.005f, 0f, 0f);
+			bar.transform.localPosition = new Vector3 (-6.75f+15.5f*SoundManager.instance.timeProgress(), 4.62f, 0f);
 			time += Time.deltaTime;
-				
-				
 
+			float timeLeft = SoundManager.instance.songStop ();
+			if (timeLeft<0.01f) {
+				GameExit ();
+			}
 
-			if (time > 2f) {
+			if (time >= GenerateTime&&timeLeft>5) {
 				StartCoroutine (Generator ());
 				time = 0f;
 			}
@@ -192,7 +199,7 @@ public class MainGame : MonoBehaviour {
 				mode = state.Play;
 				crystal.GetComponent<Animator> ().enabled = true;
 				SoundManager.instance.BGM.Play ();
-				Debug.Log ("!");
+
 			}
 		} else if (mode == state.ResultLoad) {
 			ResultLoad ();
@@ -208,8 +215,9 @@ public class MainGame : MonoBehaviour {
 		ResultClass r = Result.GetComponent<ResultClass> ();
 		Result.SetActive (true);
 		r.init ();
-		r.SetInfo(3,151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
-		//r.SetInfo(3,gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		//r.SetInfo(151,60,15,160,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		r.SetInfo(gb.Perfect,gb.Good,gb.Fail,gb.HighestCombo,gb.GetPer(1),gb.GetPer(0),!gb.isFail());
+		Debug.Log ("Time:" + SoundManager.instance.BGM.clip.length);
 	}
 	public void ResultSet()
 	{
@@ -248,9 +256,11 @@ public class MainGame : MonoBehaviour {
 	public void GameRetry()
 	{
 		PausePage.SetActive (false);
+		SceneManager.LoadScene("GameVer1");
 	}
 	public void GameExit()
 	{
+		SoundManager.instance.Stop ();
 		PausePage.SetActive (false);
 		inner.SetActive (false);
 		crystal.SetActive (false);
@@ -333,9 +343,8 @@ public class MainGame : MonoBehaviour {
 	}
 	public void ShowPersent()
 	{
-		float s = (gb.Suc - 1) * 0.6f;
-		float f = (gb.Suc ) * 0.6f;
-		Score.text=Mathf.Lerp(s,f,Time.time).ToString()+"%";
+		float f = gb.GetScore ();
+		Score.text=f.ToString("0.00")+"%";
 	}
 
 	public void ComboDestroy()

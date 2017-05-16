@@ -22,19 +22,16 @@ public class OnPausePage : MonoBehaviour {
 	{
 		switch (mode) {
 		case B_ID.Play:
-			Debug.Log ("?");
 			MainGame.Instance.GamePlay ();
 			break;
 		case B_ID.Pause:
-			Debug.Log ("!");
-			MainGame.Instance.GameStop ();
+			if(MainGame.Instance.mode==MainGame.state.Play)
+				MainGame.Instance.GameStop ();
 			break;
 		case B_ID.Retry:
-			Debug.Log ("Q"+gameObject.name);
 			MainGame.Instance.GameRetry ();
 			break;
 		case B_ID.Exit:
-			Debug.Log ("E");
 			MainGame.Instance.GameExit ();
 			break;
 		}
