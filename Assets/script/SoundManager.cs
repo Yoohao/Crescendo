@@ -35,8 +35,12 @@ public class SoundManager : MonoBehaviour {
 
 	public void SetBGMVolume(float vol){
 		BGM.volume = vol;
+		MainManager.BGM_Volume = vol;
 	}
-
+	public void SetEffVolume(float vol){
+		effect.volume = vol;
+		MainManager.Effect_Volume = vol;
+	}
 	public void playBGM(AudioClip clip, bool fade=false){
 		if (fade)
 			BGM.volume = 0;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Select_stage : MonoBehaviour {
+public class Select_Stage : MonoBehaviour {
 
 	//var
 	private int id = -1, id_max=9;
@@ -25,25 +25,24 @@ public class Select_stage : MonoBehaviour {
 	public Image[] stars;
 	public GameObject next_g, pre_g, play_g, exit_g;
 	public GameObject[] stars_g;
+	public GameObject selectUI, settingUI;
 
 	//Stage preview
-	public AudioClip[] stage_clip;
+/*	public AudioClip[] stage_clip;
 	public Sprite[] stage_img;
 	public AudioClip[] stage_gameclip;
 	public Sprite[] stage_gameimg;
 	public string[] stage_name;
 	public int[] stage_time;
 	public int[] stage_diff;
-
+*/
 
 	public Sprite bg_img;
 
 	// Use this for initialization
 	void Start () {
-		if (MainManager.Stage_ID != -1)
-			id = MainManager.Stage_ID;
-		else
-			id = 0;
+
+		id = MainManager.Stage_ID;
 		
 		next_i.CrossFadeAlpha (0f, 0f, false);
 		pre_i.CrossFadeAlpha (0f, 0f, false);
@@ -56,7 +55,10 @@ public class Select_stage : MonoBehaviour {
 		topbar.CrossFadeAlpha (1f, 1f, false);
 		play.CrossFadeAlpha (1f, 1f, false);
 
-		StartCoroutine (updateInfo (true));
+		fadeoutSetting (0f);
+		fadeinSetting (1f);
+
+		//StartCoroutine (updateInfo (true));
 	}
 	
 	// Update is called once per frame
@@ -67,7 +69,9 @@ public class Select_stage : MonoBehaviour {
 		pre.transform.localPosition -= new Vector3 (f >= 30 ? 0.5f : -0.5f, 0f);
 
 		next_g.SetActive (id < id_max);
-		pre_g.SetActive (id > 0);
+		pre_g.SetActive (id > -1);
+		selectUI.SetActive (id >= 0);
+		settingUI.SetActive (id == -1);
 
 		if (animate && select && timer < 60) {
 			ring.transform.localScale += new Vector3 (0.1f, 0.1f);
@@ -85,24 +89,49 @@ public class Select_stage : MonoBehaviour {
 		if (!select && !animate) {
 			if (Input.GetKeyDown (KeyCode.Escape))
 				ClickExit ();
-			else if (Input.GetKeyDown (KeyCode.LeftArrow) && !animate && id > 0)
+			else if (Input.GetKeyDown (KeyCode.LeftArrow) && !animate && id >= 0)
 				ClickPrevious ();
 			else if (Input.GetKeyDown (KeyCode.RightArrow) && !animate && id < id_max)
 				ClickNext ();
 			else if (Input.GetKeyDown (KeyCode.Return))
 				ClickPlay ();
 		}
-		int tmp_id = Mathf.Clamp (id, 0, id_max);
+		int tmp_id = Mathf.Clamp (id, -1, id_max);
 		if (tmp_id != id) {
 			OnChangeID = false;
 			id = tmp_id;
 		}
-		if (OnChangeID) {
+		if (OnChangeID && id >= 0) {
 			StartCoroutine (updateInfo ());
 			OnChangeID = false;
 		}
 	}
+		
+	void fadeinSetting (float dur){
+		Graphic[] obj = settingUI.GetComponentsInChildren<Graphic> ();
+		for (int i = 0; i < obj.Length; i++)
+			obj [i].CrossFadeAlpha (1f, dur, false);
+	}
 
+	void fadeoutSetting (float dur){
+		Graphic[] obj = settingUI.GetComponentsInChildren<Graphic> ();
+		for (int i = 0; i < obj.Length; i++)
+			obj [i].CrossFadeAlpha (0f, dur, false);
+	}
+
+	void fadeinSelectUI (float dur){
+		Graphic[] obj = selectUI.GetComponentsInChildren<Graphic> ();
+		for (int i = 0; i < obj.Length; i++)
+			obj [i].CrossFadeAlpha (1f, dur, false);
+	}
+
+	void fadeoutSelectUI (float dur){
+		Graphic[] obj = selectUI.GetComponentsInChildren<Graphic> ();
+		for (int i = 0; i < obj.Length; i++)
+			obj [i].CrossFadeAlpha (0f, dur, false);
+	}
+
+	/*
 	void fadeout(float duration = 0f){
 		song_name.CrossFadeAlpha (0f, duration, false);
 		time.CrossFadeAlpha (0f, duration, false);
@@ -136,22 +165,24 @@ public class Select_stage : MonoBehaviour {
 		for (int i = 0; i < stars.Length; i++)
 			stars[i].CrossFadeAlpha(1f, duration, false);
 	}
-
+*/
 
 	IEnumerator updateInfo(bool flag=false){
 		//fade out
 		if (!flag) {
-			fadeout (0.5f);
+			//fadeout (0.5f);
+			fadeoutSelectUI(0.5f);
 			yield return new WaitForSeconds (0.6f);
 		} else {
-			fadeout ();
+			fadeoutSelectUI (0f);
 			yield return new WaitForSeconds (0.1f);
 		}
 		//Get info
 		string t = "";
-		t += (stage_time [id] / 60).ToString ();
+		float sec = Mathf.RoundToInt (GameManger.instance.Music_Clip [id].length);
+		t += (sec / 60).ToString ();
 		t += ":";
-		t += (stage_time [id] % 60).ToString();
+		t += (sec % 60).ToString();
 
 		song_name.text = GameManger.instance.Music_Name[id];
 		time.text = t;
@@ -165,7 +196,7 @@ public class Select_stage : MonoBehaviour {
 		SoundManager.instance.playBGM (GameManger.instance.Music_Demo[id], true);
 
 		//fade in
-		fadein(0.5f);
+		fadeinSelectUI(0.5f);
 	}
 
 	public void ClickExit(){
@@ -184,10 +215,10 @@ public class Select_stage : MonoBehaviour {
 		MainManager.Stage_ID = id;
 		MainManager.Game_Music = GameManger.instance.Music_Demo [id];
 		MainManager.Game_Name = GameManger.instance.Music_Name [id];
-		MainManager.Game_time = stage_time [id];
+		MainManager.Game_time = Mathf.RoundToInt (GameManger.instance.Music_Clip [id].length);
 		MainManager.Game_BackGround = GameManger.instance.ResultImage [id];
 
-		fadeout (0.3f);
+		fadeoutSelectUI (0.3f);
 		next_i.CrossFadeAlpha (0f, 0.3f, false);
 		pre_i.CrossFadeAlpha (0f, 0.3f, false);
 		exit_i.CrossFadeAlpha (0f, 0.3f, false);
