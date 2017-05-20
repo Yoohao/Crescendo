@@ -46,8 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Setting.cs" />
-     <Compile Include="Assets\UIManager.cs" />
      <Compile Include="Assets\script\BLEConnector.cs" />
      <Compile Include="Assets\script\BLE_WIN32.cs" />
      <Compile Include="Assets\script\Combo.cs" />
@@ -66,9 +64,11 @@
      <Compile Include="Assets\script\PageSwitcher.cs" />
      <Compile Include="Assets\script\ResultClass.cs" />
      <Compile Include="Assets\script\Select_Stage.cs" />
+     <Compile Include="Assets\script\Setting.cs" />
      <Compile Include="Assets\script\SoundManager.cs" />
      <Compile Include="Assets\script\StarMove.cs" />
      <Compile Include="Assets\script\TextCombo.cs" />
+     <Compile Include="Assets\script\UIManager.cs" />
      <Compile Include="Assets\script\Util.cs" />
      <Compile Include="Assets\script\expScript.cs" />
      <Compile Include="Assets\script\videoPlayer.cs" />
@@ -91,7 +91,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="PInvokeSerialPort">
- <HintPath>/Users/Yo/Desktop/Crescendo/Assets/Plugins/PInvokeSerialPort.dll</HintPath>
+ <HintPath>/Users/Yo/Crescendo/Assets/Plugins/PInvokeSerialPort.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
