@@ -54,7 +54,7 @@ public class MainGame : MonoBehaviour {
 	private bool Progress_Shine=false;
 	public GameObject ProgressBlur;
 	private bool GameStartFlag=false;
-	public float GenerateTime = 2f;
+	public float GenerateTime = 1f;
 	// Use this for initialization
 	void Awake()
 	{
@@ -169,15 +169,17 @@ public class MainGame : MonoBehaviour {
 			//DebugLog.text = ray.ToString ();
 			Arrow.transform.Rotate (new Vector3 (0f, 0f, -0.1f), Space.Self);
 			CheckDir (0);
+			CheckDir (1);
 			if (BLE != null)
 				for (int i = 0; i < BLE.max_sr; i++) {
-					CheckDir (i);
+					//CheckDir (i);
 				}
 			bar.transform.localPosition = new Vector3 (-6.75f+15.5f*SoundManager.instance.timeProgress(), 4.62f, 0f);
 			time += Time.deltaTime;
 
 			float timeLeft = SoundManager.instance.songStop ();
-			if (timeLeft<0.01f) {
+			if (timeLeft<0.5f) {
+				SoundManager.instance.Stop ();
 				GameExit ();
 			}
 
@@ -424,21 +426,30 @@ public class MainGame : MonoBehaviour {
 		}
 	
 		int keyin=0;
-
-		if (Input.GetKey (KeyCode.UpArrow))
-			keyin = 1;
-		else if (Input.GetKey (KeyCode.LeftArrow))
-			keyin = 2;
-		else if (Input.GetKey (KeyCode.RightArrow))
-			keyin = 3;
-
+		if (n == 0) {
+			if (Input.GetKey (KeyCode.UpArrow))
+				keyin = 1;
+			else if (Input.GetKey (KeyCode.LeftArrow))
+				keyin = 2;
+			else if (Input.GetKey (KeyCode.RightArrow))
+				keyin = 3;
+		}
+		if (n == 1) {
+			if (Input.GetKey ("w"))
+				keyin = 1;
+			else if (Input.GetKey ("a"))
+				keyin = 2;
+			else if (Input.GetKey ("d"))
+				keyin = 3;
+		}
 
 		//if (n == 0) {
 			//DebugLog.text = deg_x + " " + deg_y + " " + deg_z;
 		//}
 
-		int dir = gb.CheckDir (n, deg_x, deg_y, deg_z);
-			//往左
+		//int dir = gb.CheckDir (n, deg_x, deg_y, deg_z);
+		int dir=0;
+		//往左
 		if ((dir==3)||keyin==2) {
 			MagicDir[n].SetActive (true);
 			Quaternion quate = Quaternion.identity;

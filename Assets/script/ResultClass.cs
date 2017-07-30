@@ -85,7 +85,7 @@ public class ResultClass : MonoBehaviour {
 
 				for (int i = 0; i < 12; i++) {
 					if (i == 10)
-						text [i].text = str [i] + "%";
+						text [i].text = float.Parse(str[i]).ToString("0.00") + "%";
 					else
 						text [i].text = str [i];
 				}

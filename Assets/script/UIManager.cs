@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour {
 	public Text Stage_name, Stage_time, spd;
 	public Image Stage_img, panel;
 	public GameObject[] Stars;
+	public GameObject LEFT, RIGHT, RF;
 
 	// Use this for initialization
 	void Start(){
@@ -37,6 +38,11 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		LEFT.SetActive (id == 0 || id == 1 || id == 2 || id == 3);
+		RIGHT.SetActive (id == 1 || id == 2 || id == 3);
+		RF.SetActive (id == 2);
+
 		print (id);
 		SettingUI.SetActive (id==SETTING);
 		SelectUI.SetActive (id!=SETTING);
@@ -55,10 +61,10 @@ public class UIManager : MonoBehaviour {
 				SoundManager.instance.Stop ();
 				SceneManager.LoadSceneAsync("GameVer1");
 			}
-		} else if (animate && timer < 30) {
+		} else if (animate && timer < 15) {
 			timer++;
-			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -1.5f : 1.5f), Space.Self);
-			if (timer == 30)
+			ring.transform.Rotate (new Vector3 (0f, 0f, left ? -3f : 3f), Space.Self);
+			if (timer == 15)
 				animate = false;
 		}
 
@@ -119,8 +125,9 @@ public class UIManager : MonoBehaviour {
 		int t = Mathf.RoundToInt(GameManger.instance.Music_Clip[id].length);
 		str += (t / 60).ToString();
 		str += ":";
-		str += (t % 60).ToString();
-
+		int tmp = t % 60;
+		str += tmp < 10 ? "0" : "";
+		str += tmp.ToString ();
 		Stage_name.text = GameManger.instance.Music_Name [id];
 		Stage_time.text = str;
 		Stage_img.sprite = GameManger.instance.ResultImage[id];
